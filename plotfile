@@ -1,0 +1,5 @@
+plot \
+	"gnutest.csv" using 1:2 title 'no-unroll',\
+	"gnutest.csv" using 1:3 title '2-unroll',\
+	"gnutest.csv" using 1:4 title '4-unroll'\
+\

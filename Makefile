@@ -15,7 +15,7 @@ o0FILES = $(EXES)o0.asm
 o2FILES = $(EXES)o2.asm
 funFILES = $(EXES)fun.asm
 
-all : test.csv asm
+all : plot asm
 
 clean :
 	rm -f ./exe/*
@@ -25,10 +25,14 @@ $(EXECDIR)/% : $(SRCDIR)/%.cpp
 
 exes : $(addprefix $(EXECDIR)/,$(EXES))
 
-test.csv : $(addprefix $(EXECDIR)/,$(EXES))
-	$(EXECDIR)/matrix > test.csv
-	$(EXECDIR)/matrixun2 >> test.csv
-	$(EXECDIR)/matrixun4 >> test.csv
+plot : gnutest.csv
+	gnuplot plotfile -
+
+gnutest.csv : $(addprefix $(EXECDIR)/,$(EXES))
+	$(EXECDIR)/matrix 2048 256 > test.csv
+	$(EXECDIR)/matrixun2 2048 256 >> test.csv
+	$(EXECDIR)/matrixun4 2048 256 >> test.csv
+	python csvtrans.py test.csv  gnutest.csv
 
 asms : $(o0FILES) $(o2FILES) $(funFILES)
 

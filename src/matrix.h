@@ -3,6 +3,7 @@
 #define _MATRIX_H_
 
 #include <ostream>
+#include <stdlib.h>
 
 
 template <class T>

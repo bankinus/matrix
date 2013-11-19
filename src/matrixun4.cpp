@@ -114,8 +114,13 @@ std::ostream& operator<<(std::ostream& stream, const Matrix<T> &m)  {
 	return stream;
 }
 
-int main(void) {
-	for (int dim = 16; dim <= 512; dim += 16){
+int main(int argc, char** argv) {
+	int maxdim = 512;
+	int step = 16;
+	if (argc > 1) maxdim = atoi(argv[1]);
+	if (argc > 2) step = atoi(argv[2]);
+	for (int dim = 0; dim <= maxdim; dim += step){
+
 		struct timespec begin;
                 struct timespec end;
 		int* d1 = new int[dim * dim];

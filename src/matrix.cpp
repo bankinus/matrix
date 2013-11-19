@@ -111,8 +111,18 @@ std::ostream& operator<<(std::ostream& stream, const Matrix<T> &m)  {
 	return stream;
 }
 
-int main(void) {
-	for (int dim = 16; dim <= 512; dim += 16){
+int main(int argc, char** argv) {
+	int maxdim = 512;
+	int step = 16;
+	if (argc > 1) maxdim = atoi(argv[1]);
+	if (argc > 2) step = atoi(argv[2]);
+	
+	for (int dim = 0; dim <= maxdim; dim += step){
+		std::cout << dim << "\t";
+	}
+	std::cout << std::endl;
+	
+	for (int dim = 0; dim <= maxdim; dim += step){
 		struct timespec begin;
                 struct timespec end;
 		int* d1 = new int[dim * dim];
@@ -127,7 +137,7 @@ int main(void) {
 		Matrix<int> m2(dim, dim, d2);
 		Matrix<int> m3(dim, dim);
                 clock_gettime(CLOCK_MONOTONIC, &begin);
-		for(int i=0; i<10; i++){
+		for(volatile int i=0; i<10; i++){
 			m3 = m1 * m2;
 		}
 		clock_gettime(CLOCK_MONOTONIC, &end);
