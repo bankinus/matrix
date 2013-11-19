@@ -29,9 +29,9 @@ plot : gnutest.csv
 	gnuplot plotfile -
 
 gnutest.csv : $(addprefix $(EXECDIR)/,$(EXES))
-	$(EXECDIR)/matrix 2048 256 > test.csv
-	$(EXECDIR)/matrixun2 2048 256 >> test.csv
-	$(EXECDIR)/matrixun4 2048 256 >> test.csv
+	$(EXECDIR)/matrix 1024 256 > test.csv
+	$(EXECDIR)/matrixun2 1024 256 >> test.csv
+	$(EXECDIR)/matrixun4 1024 256 >> test.csv
 	python csvtrans.py test.csv  gnutest.csv
 
 asms : $(o0FILES) $(o2FILES) $(funFILES)
