@@ -1,6 +1,6 @@
 ## Flags
 LD = g++
-CXXFLAGS = -lrt -Wall -g -DLINUX -O2
+CXXFLAGS = -lrt -Wall -g -DLINUX -O0
 
 LFLAGS = 
 
@@ -20,6 +20,9 @@ all : plot asm
 clean :
 	rm -f ./exe/*
 	rm -f ./asm/*
+	rm -f gnutest.csv
+	rm -f test.csv
+	
 $(EXECDIR)/% : $(SRCDIR)/%.cpp
 	$(LD) $(CXXFLAGS) -o $@ $^ ${LFLAGS}
 
@@ -29,10 +32,11 @@ plot : gnutest.csv
 	gnuplot plotfile -
 
 gnutest.csv : $(addprefix $(EXECDIR)/,$(EXES))
-	$(EXECDIR)/matrix 1024 256 > test.csv
-	$(EXECDIR)/matrixun2 1024 256 >> test.csv
-	$(EXECDIR)/matrixun4 1024 256 >> test.csv
+	$(EXECDIR)/matrix 1024 64 > test.csv
+	$(EXECDIR)/matrixun2 1024 64 >> test.csv
+	$(EXECDIR)/matrixun4 1024 64 >> test.csv
 	python csvtrans.py test.csv  gnutest.csv
+	rm test.csv
 
 asms : $(o0FILES) $(o2FILES) $(funFILES)
 
