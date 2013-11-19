@@ -15,7 +15,7 @@ o0FILES = $(EXES)o0.asm
 o2FILES = $(EXES)o2.asm
 funFILES = $(EXES)fun.asm
 
-all : plot asm
+all : plot asms
 
 clean :
 	rm -f ./exe/*
