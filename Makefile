@@ -1,32 +1,49 @@
 ## Flags
 LD = g++
+CPP = g++
 CXXFLAGS = -lrt -Wall -g -DLINUX -O0
 
 LFLAGS = 
 
 ASMDIR = ./asm
 EXECDIR = ./exe
+OBJDIR = ./obj
 SRCDIR = ./src
 
 HEADERS = matrix.h 
 SRCS = $(notdir $(shell find $(SRCDIR) -name "*.cpp"))
+OBJSRCS = $(notdir $(shell find $(SRCDIR) -name "*.cc"))
+OBJ = $(OBJSRCS:.cc=.o)
 EXES = $(SRCS:.cpp=)
 o0FILES = $(EXES)o0.asm
 o2FILES = $(EXES)o2.asm
 funFILES = $(EXES)fun.asm
 
-all : plot asms
+all : tile_test.csv
 
 clean :
 	rm -f ./exe/*
 	rm -f ./asm/*
 	rm -f gnutest.csv
 	rm -f test.csv
-	
+
+$(EXECDIR)/tile_test : $(OBJDIR)/rowtmatrix.o $(OBJDIR)/coltmatrix.o $(OBJDIR)/blocktmatrix.o
+	$(LD) $(CXXFLAGS) -o $@ $^ ${LFLAGS}
+
+
+$(OBJDIR)/absmatrix.o : $(SRCDIR)/absmatrix.cc
+	$(CPP) $(CXXFLAGS) -c -o $@ $^
+
+$(OBJDIR)/%tmatrix.o : $(SRCDIR)/%tmatrix.cc $(OBJDIR)/absmatrix.o
+	$(CPP) $(CXXFLAGS) -c -o $@ $^
+
 $(EXECDIR)/% : $(SRCDIR)/%.cpp
 	$(LD) $(CXXFLAGS) -o $@ $^ ${LFLAGS}
 
 exes : $(addprefix $(EXECDIR)/,$(EXES))
+
+tile_test.csv : $(addprefix $(EXECDIR)/,$(EXES))
+	$(EXECDIR)/tile_test 256 > tile_test.csv
 
 plot : gnutest.csv
 	gnuplot plotfile -
