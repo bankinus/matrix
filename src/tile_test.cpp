@@ -3,6 +3,8 @@
 #include "coltmatrix.h"
 #include "blocktmatrix.h"
 
+#define repeats 2
+
 int main (int argc, char** argv){
     int maxdim = 2048;
 	int step = 512;
@@ -14,6 +16,7 @@ int main (int argc, char** argv){
         struct timespec end;
         time_t sec;
         long nsec;
+        long msec;
 		int* d1 = new int[dim * dim];
 		int* d2 = new int[dim * dim];
 		for (int i = 0; i < dim; i++){
@@ -27,7 +30,7 @@ int main (int argc, char** argv){
 		RowtMatrix<int> r2(dim, dim, d2);
 		RowtMatrix<int> r3(dim, dim);
                 clock_gettime(CLOCK_MONOTONIC, &begin);
-		for(volatile int i=0; i<40; i++){
+		for(volatile int i=0; i<repeats; i++){
 			r3 = r1 * r2;
 		}
 		clock_gettime(CLOCK_MONOTONIC, &end);
@@ -35,13 +38,15 @@ int main (int argc, char** argv){
         nsec = end.tv_nsec - begin.tv_nsec;
         nsec /= 1000000;
         sec *= 1000;
-		std::cout << sec + nsec << "\t";
+        msec = sec + nsec;
+        msec = msec / repeats;
+		std::cout << msec << "\t";
 
 		ColtMatrix<int> c1(dim, dim, d1);
 	    ColtMatrix<int> c2(dim, dim, d2);
 		ColtMatrix<int> c3(dim, dim);
                 clock_gettime(CLOCK_MONOTONIC, &begin);
-		for(volatile int i=0; i<40; i++){
+		for(volatile int i=0; i<repeats; i++){
 			c3 = c1 * c2;
 		}
 		clock_gettime(CLOCK_MONOTONIC, &end);
@@ -49,13 +54,14 @@ int main (int argc, char** argv){
         nsec = end.tv_nsec - begin.tv_nsec;
         nsec /= 1000000;
         sec *= 1000;
-		std::cout << sec + nsec << "\t";
+        msec = msec / repeats;
+		std::cout << msec << "\t";
 
    		BlocktMatrix<int> b1(dim, dim, d1);
 		BlocktMatrix<int> b2(dim, dim, d2);
 		BlocktMatrix<int> b3(dim, dim);
                 clock_gettime(CLOCK_MONOTONIC, &begin);
-		for(volatile int i=0; i<40; i++){
+		for(volatile int i=0; i<repeats; i++){
 			b3 = b1 * b2;
 		}
 		clock_gettime(CLOCK_MONOTONIC, &end);
@@ -63,7 +69,8 @@ int main (int argc, char** argv){
         nsec = end.tv_nsec - begin.tv_nsec;
         nsec /= 1000000;
         sec *= 1000;
-		std::cout << sec + nsec << std::endl;    
+        msec = msec / repeats;
+		std::cout << msec << std::endl;    
 	}
 	return 0;
    
