@@ -22,7 +22,7 @@ class RowtMatrix : public AbsMatrix<T>{
             for (unsigned int j2 = 0; j2 < this->_width; j2+=tilefactor){
         	    for (unsigned int i=0; i<c.getHeight(); i++){
         	    	for (unsigned int k1 = 0; k1 < c.getWidth(); k1++){
-        	    		for (unsigned int j1 = j2; (j1 < j2) && (j1 < this->_width); j1++){
+        	    		for (unsigned int j1 = j2; (j1 < j2+tilefactor) && (j1 < this->_width); j1++){
         	    			asm (
         	    				"#loop"
         	    			);

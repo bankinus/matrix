@@ -21,6 +21,7 @@ class AbsMatrix {
         	_height=m;
         	_width=n;
         	_data=new T[ _height * _width ];
+            std::memset(_data, 0, sizeof(T) * m * n);
         }
 		
 		//! additional contructor which copies data directly

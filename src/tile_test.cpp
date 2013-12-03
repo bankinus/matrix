@@ -4,12 +4,12 @@
 #include "blocktmatrix.h"
 
 int main (int argc, char** argv){
-    int maxdim = 32;
-	int step = 32;
+    int maxdim = 2048;
+	int step = 512;
 	if (argc > 1) maxdim = atoi(argv[1]);
 	if (argc > 2) step = atoi(argv[2]);
 	
-	for (int dim = 0; dim <= maxdim; dim += step){
+	for (int dim = step; dim <= maxdim; dim += step){
 		struct timespec begin;
         struct timespec end;
         time_t sec;
@@ -44,8 +44,6 @@ int main (int argc, char** argv){
 		for(volatile int i=0; i<40; i++){
 			c3 = c1 * c2;
 		}
-        std::cout << "c3:" << std::endl;
-        std::cout << c3 << std::endl;
 		clock_gettime(CLOCK_MONOTONIC, &end);
         sec = end.tv_sec - begin.tv_sec;
         nsec = end.tv_nsec - begin.tv_nsec;
@@ -60,8 +58,6 @@ int main (int argc, char** argv){
 		for(volatile int i=0; i<40; i++){
 			b3 = b1 * b2;
 		}
-        std::cout << "b3:" << std::endl;
-        std::cout << b3 << std::endl;
 		clock_gettime(CLOCK_MONOTONIC, &end);
         sec = end.tv_sec - begin.tv_sec;
         nsec = end.tv_nsec - begin.tv_nsec;

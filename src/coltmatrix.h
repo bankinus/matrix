@@ -21,7 +21,7 @@ class ColtMatrix : public AbsMatrix<T>{
          	ColtMatrix<T> c = ColtMatrix(this->getHeight(), other.getWidth());
              for (unsigned int k2 = 0; k2 < this->_width; k2+=tilefactor){
          	    for (unsigned int i=0; i<c.getHeight(); i++){
-         	    	for (unsigned int k1 = k2; (k1 < k2) && (k1 < c.getWidth()); k1++){
+         	    	for (unsigned int k1 = k2; (k1 < k2+tilefactor) && (k1 < c.getWidth()); k1++){
          	    		for (unsigned int j1 = 0; j1 < this->_width; j1++){
          	    			asm (
          	    				"#loop"

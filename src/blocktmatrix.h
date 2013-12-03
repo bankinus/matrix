@@ -2,6 +2,7 @@
 #define _BLOCKMT_H_
 
 #include "absmatrix.h"
+#include <iostream>
 
 template <class T>
 class BlocktMatrix : public AbsMatrix<T>{
@@ -19,11 +20,11 @@ class BlocktMatrix : public AbsMatrix<T>{
 
         BlocktMatrix operator*(const BlocktMatrix<T> &other){
             BlocktMatrix<T> c = BlocktMatrix(this->getHeight(), other.getWidth());
-            for (unsigned int k2 = 0; k2 < this->_width; k2+=tilefactor){
-                for (unsigned int j2 = 0; j2 < this->_width; j2+=tilefactor){
+            for (unsigned int k2 = 0; k2 < c.getHeight(); k2+=tilefactor){
+                for (unsigned int j2 = 0; j2 < c.getWidth(); j2+=tilefactor){
         	        for (unsigned int i=0; i<c.getHeight(); i++){
-        	    	    for (unsigned int k1 = k2; (k1 < k2) && (k1 < c.getWidth()); k1++){
-        	    		    for (unsigned int j1 = j2; (j1 < j2) && (j1 < this->_width); j1++){
+        	    	    for (unsigned int k1 = k2; (k1 < k2+tilefactor) && (k1 < c.getWidth()); k1++){
+        	    		    for (unsigned int j1 = j2; (j1 < j2+tilefactor) && (j1 < c.getHeight()); j1++){
         	    			    asm (
         	    			    	"#loop"
         	    			    );

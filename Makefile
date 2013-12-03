@@ -1,7 +1,7 @@
 ## Flags
 LD = g++
 CPP = g++
-CXXFLAGS = -lrt -Wall -g -DLINUX -O0
+CXXFLAGS = -lrt -Wall -g -DLINUX -O2
 
 LFLAGS = 
 
@@ -36,7 +36,8 @@ $(EXECDIR)/% : $(SRCDIR)/%.cpp
 exes : $(addprefix $(EXECDIR)/,$(EXES))
 
 tile_test.csv : $(addprefix $(EXECDIR)/,$(EXES))
-	$(EXECDIR)/tile_test > tile_test.csv
+	$(EXECDIR)/tile_test 256 256 > tile_test.csv
+	$(EXECDIR)/tile_test 2048 1024 >> tile_test.csv
 
 plot : gnutest.csv
 	gnuplot plotfile -
