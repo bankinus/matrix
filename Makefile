@@ -27,15 +27,8 @@ clean :
 	rm -f gnutest.csv
 	rm -f test.csv
 
-$(EXECDIR)/tile_test : $(OBJDIR)/rowtmatrix.o $(OBJDIR)/coltmatrix.o $(OBJDIR)/blocktmatrix.o
+$(EXECDIR)/tile_test : $(SRCDIR)/tile_test.cpp $(SRCDIR)/absmatrix.h $(SRCDIR)/rowtmatrix.h $(SRCDIR)/coltmatrix.h $(SRCDIR)/blocktmatrix.h
 	$(LD) $(CXXFLAGS) -o $@ $^ ${LFLAGS}
-
-
-$(OBJDIR)/absmatrix.o : $(SRCDIR)/absmatrix.cc
-	$(CPP) $(CXXFLAGS) -c -o $@ $^
-
-$(OBJDIR)/%tmatrix.o : $(SRCDIR)/%tmatrix.cc $(OBJDIR)/absmatrix.o
-	$(CPP) $(CXXFLAGS) -c -o $@ $^
 
 $(EXECDIR)/% : $(SRCDIR)/%.cpp
 	$(LD) $(CXXFLAGS) -o $@ $^ ${LFLAGS}
@@ -43,7 +36,7 @@ $(EXECDIR)/% : $(SRCDIR)/%.cpp
 exes : $(addprefix $(EXECDIR)/,$(EXES))
 
 tile_test.csv : $(addprefix $(EXECDIR)/,$(EXES))
-	$(EXECDIR)/tile_test 256 > tile_test.csv
+	$(EXECDIR)/tile_test > tile_test.csv
 
 plot : gnutest.csv
 	gnuplot plotfile -
