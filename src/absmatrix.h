@@ -9,8 +9,15 @@
 #include <cstring>
 #include "absmatrix.h"
 #include <ctime>
+#include <boost/preprocessor/repetition/repeat.hpp>
 
+#ifndef tilefactor
 #define tilefactor 16
+#endif
+
+#ifndef unrollfactor
+#define unrollfactor 1
+#endif
 
 template <class T>
 class AbsMatrix {

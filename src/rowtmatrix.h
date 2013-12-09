@@ -2,6 +2,7 @@
 #define _ROWTM_H_
 
 #include "absmatrix.h"
+#define expand_rowt(z, count, data)   c.setEntry(i, j1+count, c.getEntry(i,j1+count) + this->getEntry(i,k1) * other.getEntry(k1,j1+count));
 
 template <class T>
 class RowtMatrix : public AbsMatrix<T>{
@@ -22,11 +23,12 @@ class RowtMatrix : public AbsMatrix<T>{
             for (unsigned int j2 = 0; j2 < this->_width; j2+=tilefactor){
         	    for (unsigned int i=0; i<c.getHeight(); i++){
         	    	for (unsigned int k1 = 0; k1 < c.getWidth(); k1++){
-        	    		for (unsigned int j1 = j2; (j1 < j2+tilefactor) && (j1 < this->_width); j1++){
+        	    		for (unsigned int j1 = j2; (j1 < j2+tilefactor) && (j1 < this->_width); j1+=unrollfactor){
         	    			asm (
         	    				"#loop"
         	    			);
-        	    		    c.setEntry(i, j1, c.getEntry(i,j1) + this->getEntry(i,k1) * other.getEntry(k1,j1));
+        	    		    //c.setEntry(i, j1, c.getEntry(i,j1) + this->getEntry(i,k1) * other.getEntry(k1,j1));
+                            BOOST_PP_REPEAT(unrollfactor, expand_rowt, data);
         	    		}
         	    	}
         	    }

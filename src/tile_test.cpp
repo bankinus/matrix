@@ -3,7 +3,7 @@
 #include "coltmatrix.h"
 #include "blocktmatrix.h"
 
-#define repeats 2
+#define repeats 20
 
 int main (int argc, char** argv){
     int maxdim = 2048;
