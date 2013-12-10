@@ -1,0 +1,17 @@
+plot \
+	"amd_tile_test_unroll1.csv" using 1:2 title 'row-1',\
+	"amd_tile_test_unroll1.csv" using 1:3 title 'col-1',\
+	"amd_tile_test_unroll1.csv" using 1:4 title 'block-1',\
+	"amd_tile_test_unroll2.csv" using 1:2 title 'row-2',\
+	"amd_tile_test_unroll2.csv" using 1:3 title 'col-2',\
+	"amd_tile_test_unroll2.csv" using 1:4 title 'block-2',\
+	"amd_tile_test_unroll4.csv" using 1:2 title 'row-4',\
+	"amd_tile_test_unroll4.csv" using 1:3 title 'col-4',\
+	"amd_tile_test_unroll4.csv" using 1:4 title 'block-4',\
+	"amd_tile_test_unroll8.csv" using 1:2 title 'row-8',\
+	"amd_tile_test_unroll8.csv" using 1:3 title 'col-8',\
+	"amd_tile_test_unroll8.csv" using 1:4 title 'block-8',\
+	"amd_tile_test_unroll16.csv" using 1:2 title 'row-16',\
+	"amd_tile_test_unroll16.csv" using 1:3 title 'col-16',\
+	"amd_tile_test_unroll16.csv" using 1:4 title 'block-16'\
+\
