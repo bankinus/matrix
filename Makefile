@@ -9,6 +9,7 @@ ASMDIR = ./asm
 EXECDIR = ./exe
 OBJDIR = ./obj
 SRCDIR = ./src
+TILERESDIR = ./src
 
 HEADERS = matrix.h 
 SRCS = $(notdir $(shell find $(SRCDIR) -name "*.cpp"))
@@ -37,20 +38,20 @@ exes : $(addprefix $(EXECDIR)/,$(EXES))
 
 tile_test.csv : $(addprefix $(EXECDIR)/,$(EXES))
 	$(LD) $(CXXFLAGS) -o $(EXECDIR)/tile_test $(SRCDIR)/tile_test.cpp $(SRCDIR)/absmatrix.h $(SRCDIR)/rowtmatrix.h $(SRCDIR)/coltmatrix.h $(SRCDIR)/blocktmatrix.h ${LFLAGS}
-	$(EXECDIR)/tile_test 256 256 > tile_test_unroll1.csv
-	$(EXECDIR)/tile_test 2048 1024 >> tile_test_unroll1.csv
+	$(EXECDIR)/tile_test 256 256 > $(TILERESDIR)/tile_test_unroll1.csv
+	$(EXECDIR)/tile_test 2048 1024 >> $(TILERESDIR)/tile_test_unroll1.csv
 	$(LD) $(CXXFLAGS) -o $(EXECDIR)/tile_test $(SRCDIR)/tile_test.cpp $(SRCDIR)/absmatrix.h $(SRCDIR)/rowtmatrix.h $(SRCDIR)/coltmatrix.h $(SRCDIR)/blocktmatrix.h ${LFLAGS} -unrollfactor=2
-	$(EXECDIR)/tile_test 256 256 > tile_test_unroll2.csv
-	$(EXECDIR)/tile_test 2048 1024 >> tile_test_unroll2.csv
+	$(EXECDIR)/tile_test 256 256 > $(TILERESDIR)/tile_test_unroll2.csv
+	$(EXECDIR)/tile_test 2048 1024 >> $(TILERESDIR)/tile_test_unroll2.csv
 	$(LD) $(CXXFLAGS) -o $(EXECDIR)/tile_test $(SRCDIR)/tile_test.cpp $(SRCDIR)/absmatrix.h $(SRCDIR)/rowtmatrix.h $(SRCDIR)/coltmatrix.h $(SRCDIR)/blocktmatrix.h ${LFLAGS} -unrollfactor=4
-	$(EXECDIR)/tile_test 256 256 > tile_test_unroll4.csv
-	$(EXECDIR)/tile_test 2048 1024 >> tile_test_unroll4.csv
+	$(EXECDIR)/tile_test 256 256 > $(TILERESDIR)/tile_test_unroll4.csv
+	$(EXECDIR)/tile_test 2048 1024 >> $(TILERESDIR)/tile_test_unroll4.csv
 	$(LD) $(CXXFLAGS) -o $(EXECDIR)/tile_test $(SRCDIR)/tile_test.cpp $(SRCDIR)/absmatrix.h $(SRCDIR)/rowtmatrix.h $(SRCDIR)/coltmatrix.h $(SRCDIR)/blocktmatrix.h ${LFLAGS} -unrollfactor=8
-	$(EXECDIR)/tile_test 256 256 > tile_test_unroll8.csv
-	$(EXECDIR)/tile_test 2048 1024 >> tile_test_unroll8.csv
+	$(EXECDIR)/tile_test 256 256 > $(TILERESDIR)/tile_test_unroll8.csv
+	$(EXECDIR)/tile_test 2048 1024 >> $(TILERESDIR)/tile_test_unroll8.csv
 	$(LD) $(CXXFLAGS) -o $(EXECDIR)/tile_test $(SRCDIR)/tile_test.cpp $(SRCDIR)/absmatrix.h $(SRCDIR)/rowtmatrix.h $(SRCDIR)/coltmatrix.h $(SRCDIR)/blocktmatrix.h ${LFLAGS} -unrollfactor=16
-	$(EXECDIR)/tile_test 256 256 > tile_test_unroll16.csv
-	$(EXECDIR)/tile_test 2048 1024 >> tile_test_unroll16.csv
+	$(EXECDIR)/tile_test 256 256 > $(TILERESDIR)/tile_test_unroll16.csv
+	$(EXECDIR)/tile_test 2048 1024 >> $(TILERESDIR)/tile_test_unroll16.csv
     
 
 unrollplot : gnutest.csv
