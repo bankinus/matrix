@@ -42,9 +42,9 @@ int main (int argc, char** argv){
         msec = msec;
 		std::cout << msec << "\t";
  
-		SSEVecFloatMatrix a1(dim, dim, d1);
-		SSEVecFloatMatrix a2(dim, dim, d2);
-		SSEVecFloatMatrix a3(dim, dim);
+		AVXVecFloatMatrix a1(dim, dim, d1);
+		AVXVecFloatMatrix a2(dim, dim, d2);
+		AVXVecFloatMatrix a3(dim, dim);
         clock_gettime(CLOCK_MONOTONIC, &begin);
 		for(volatile int i=0; i<repeats; i++){
 			a3 = a1 * a2;
