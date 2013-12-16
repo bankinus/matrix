@@ -11,6 +11,7 @@ OBJDIR = ./obj
 SRCDIR = ./src
 TILERESDIR = ./tile_test_results
 VECRESDIR = ./vec_test_results
+THREADRESDIR = ./thread_test_results
 
 HEADERS = matrix.h 
 SRCS = $(notdir $(shell find $(SRCDIR) -name "*.cpp"))
@@ -21,7 +22,7 @@ o0FILES = $(EXES)o0.asm
 o2FILES = $(EXES)o2.asm
 funFILES = $(EXES)fun.asm
 
-all : vec_test.csv
+all : thread_test.csv
 
 clean :
 	rm -f ./exe/*
@@ -35,10 +36,17 @@ $(EXECDIR)/tile_test : $(SRCDIR)/tile_test.cpp $(SRCDIR)/absmatrix.h $(SRCDIR)/r
 $(EXECDIR)/vec_test : $(SRCDIR)/vec_test.cpp $(SRCDIR)/absmatrix.h $(SRCDIR)/vecmatrix.h
 	$(LD) $(CXXFLAGS) -o $@ $^ -mavx ${LFLAGS}
 
+$(EXECDIR)/thread_test : $(SRCDIR)/thread_test.cpp $(SRCDIR)/threadmatrix.h
+	$(LD) $(CXXFLAGS) -o $@ $^ -fopenmp ${LFLAGS}
+
 $(EXECDIR)/% : $(SRCDIR)/%.cpp
 	$(LD) $(CXXFLAGS) -o $@ $^ ${LFLAGS}
 
 exes : $(addprefix $(EXECDIR)/,$(EXES))
+
+thread_test.csv : $(EXECDIR)/thread_test
+	$(EXECDIR)/thread_test 64 64 > $(THREADRESDIR)/thread_test.csv
+	$(EXECDIR)/thread_test 1024 128 >> $(THREADRESDIR)/thread_test.csv
 
 vec_test.csv : $(EXECDIR)/vec_test
 	$(EXECDIR)/vec_test 64 64 > $(VECRESDIR)/vec_test.csv
