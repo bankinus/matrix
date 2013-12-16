@@ -54,6 +54,7 @@ int main (int argc, char** argv){
         nsec = end.tv_nsec - begin.tv_nsec;
         nsec /= 1000000;
         sec *= 1000;
+        msec = sec + nsec;
         msec = msec / repeats;
 		std::cout << msec << "\t";
 
@@ -69,6 +70,7 @@ int main (int argc, char** argv){
         nsec = end.tv_nsec - begin.tv_nsec;
         nsec /= 1000000;
         sec *= 1000;
+        msec = sec + nsec;
         msec = msec / repeats;
 		std::cout << msec << std::endl;    
 	}
