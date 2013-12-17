@@ -12,11 +12,11 @@
 #include <boost/preprocessor/repetition/repeat.hpp>
 
 #ifndef tilefactor
-#define tilefactor 16
+#define tilefactor 4
 #endif
 
 #ifndef unrollfactor
-#define unrollfactor 1
+#define unrollfactor 4
 #endif
 
 template <class T>

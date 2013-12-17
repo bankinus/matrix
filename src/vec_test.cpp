@@ -1,7 +1,8 @@
 #include <iostream>
 #include "vecmatrix.h"
+#include "blocktmatrix.h"
 
-#define repeats 100
+#define repeats 20
 
 int main (int argc, char** argv){
     int maxdim = 1024;
@@ -24,6 +25,24 @@ int main (int argc, char** argv){
 			}
 		}
         std::cout << dim << "\t";
+       	BlocktMatrix<float> b1(dim, dim, d1);
+		BlocktMatrix<float> b2(dim, dim, d2);
+		BlocktMatrix<float> b3(dim, dim);
+        clock_gettime(CLOCK_MONOTONIC, &begin);
+		for(volatile int i=0; i<repeats; i++){
+			b3 = b1 * b2;
+			b2 = b1 * b3;
+			b1 = b2 * b3;
+		}
+		clock_gettime(CLOCK_MONOTONIC, &end);
+        sec = end.tv_sec - begin.tv_sec;
+        nsec = end.tv_nsec - begin.tv_nsec;
+        nsec /= 1000000;
+        sec *= 1000;
+        msec = sec + nsec;
+        msec = msec;
+		std::cout << msec << "\t";
+
 		SSEVecFloatMatrix s1(dim, dim, d1);
 		SSEVecFloatMatrix s2(dim, dim, d2);
 		SSEVecFloatMatrix s3(dim, dim);

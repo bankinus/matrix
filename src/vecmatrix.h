@@ -1,5 +1,5 @@
-#ifndef _BLOCKMT_H_
-#define _BLOCKMT_H_
+#ifndef _VECM_H_
+#define _VECM_H_
 
 #include "absmatrix.h"
 #include <xmmintrin.h>

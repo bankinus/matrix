@@ -24,7 +24,7 @@ class BlocktMatrix : public AbsMatrix<T>{
                 for (unsigned int j2 = 0; j2 < c.getWidth(); j2+=tilefactor){
         	        for (unsigned int i=0; i<c.getHeight(); i++){
         	    	    for (unsigned int k1 = k2; (k1 < k2+tilefactor) && (k1 < c.getWidth()); k1++){
-        	    		    for (unsigned int j1 = j2; (j1 < j2+tilefactor) && (j1 < c.getHeight()); j1+=2){
+        	    		    for (unsigned int j1 = j2; (j1 < j2+tilefactor) && (j1 < c.getHeight()); j1+=unrollfactor){
         	    			    asm (
         	    			    	"#loop"
         	    			    );

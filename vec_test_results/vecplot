@@ -1,4 +1,5 @@
 plot \
-	"vec_test.csv" using 1:2 title 'sse',\
-	"vec_test.csv" using 1:3 title 'avx'\
+	"vec_test.csv" using 1:2 title 'blockt',\
+	"vec_test.csv" using 1:3 title 'sse',\
+	"vec_test.csv" using 1:4 title 'avx'\
 \
