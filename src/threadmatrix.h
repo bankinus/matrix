@@ -47,7 +47,7 @@ template <class T>
 
 class ThreadMatrix : public AbsMatrix<T>{
     protected:
-        int threads;
+        unsigned int threads;
         std::thread* threadarray;
         void computeBlock(unsigned int j, const ThreadMatrix<T> &other, ThreadMatrix<T> *c){
             for (unsigned int k2 = 0; k2 < c->getHeight(); k2+=tilefactor){
