@@ -37,7 +37,7 @@ $(EXECDIR)/vec_test : $(SRCDIR)/vec_test.cpp $(SRCDIR)/absmatrix.h $(SRCDIR)/vec
 	$(LD) $(CXXFLAGS) -o $@ $^ -mavx ${LFLAGS}
 
 $(EXECDIR)/thread_test : $(SRCDIR)/thread_test.cpp $(SRCDIR)/threadmatrix.h
-	$(LD) $(CXXFLAGS) -o $@ $^ -fopenmp ${LFLAGS}
+	$(LD) $(CXXFLAGS) -o $@ $^ -std=c++11 -fopenmp ${LFLAGS}
 
 $(EXECDIR)/% : $(SRCDIR)/%.cpp
 	$(LD) $(CXXFLAGS) -o $@ $^ ${LFLAGS}
