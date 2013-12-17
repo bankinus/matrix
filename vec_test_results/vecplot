@@ -1,0 +1,4 @@
+plot \
+	"vec_test.csv" using 1:2 title 'sse',\
+	"vec_test.csv" using 1:3 title 'avx'\
+\
