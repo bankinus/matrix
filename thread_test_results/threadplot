@@ -3,5 +3,7 @@ plot \
 	"thread_test.csv" using 1:3 title '2 thread',\
 	"thread_test.csv" using 1:4 title '4 thread',\
 	"thread_test.csv" using 1:5 title '8 thread',\
-	"thread_test.csv" using 1:6 title 'OpenMP'\
+	"thread_test.csv" using 1:6 title '16 thread',\
+	"thread_test.csv" using 1:7 title '32 thread',\
+	"thread_test.csv" using 1:8 title 'OpenMP'\
 \

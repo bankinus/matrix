@@ -84,8 +84,38 @@ int main (int argc, char** argv){
         sec *= 1000;
         msec = sec+nsec;
 		std::cout << msec << "\t";
+        
+        ThreadMatrix<int> t161(dim, dim, d1, 16);
+		ThreadMatrix<int> t162(dim, dim, d2, 16);
+		ThreadMatrix<int> t163(dim, dim, 16);
+                clock_gettime(CLOCK_MONOTONIC, &begin);
+		for(volatile int i=0; i<repeats; i++){
+			t163 = t161 * t162;
+		}
+		clock_gettime(CLOCK_MONOTONIC, &end);
+        sec = end.tv_sec - begin.tv_sec;
+        nsec = end.tv_nsec - begin.tv_nsec;
+        nsec /= 1000000;
+        sec *= 1000;
+        msec = sec+nsec;
+		std::cout << msec << "\t";
 
-   		OpenMPMatrix<int> o1(dim, dim, d1);
+        ThreadMatrix<int> t321(dim, dim, d1, 32);
+		ThreadMatrix<int> t322(dim, dim, d2, 32);
+		ThreadMatrix<int> t323(dim, dim, 32);
+                clock_gettime(CLOCK_MONOTONIC, &begin);
+		for(volatile int i=0; i<repeats; i++){
+			t323 = t321 * t322;
+		}
+		clock_gettime(CLOCK_MONOTONIC, &end);
+        sec = end.tv_sec - begin.tv_sec;
+        nsec = end.tv_nsec - begin.tv_nsec;
+        nsec /= 1000000;
+        sec *= 1000;
+        msec = sec+nsec;
+		std::cout << msec << "\t";
+
+        OpenMPMatrix<int> o1(dim, dim, d1);
 		OpenMPMatrix<int> o2(dim, dim, d2);
 		OpenMPMatrix<int> o3(dim, dim);
                 clock_gettime(CLOCK_MONOTONIC, &begin);

@@ -64,35 +64,36 @@ class SSEVecFloatMatrix : public AbsMatrix<float>{
             SSEVecFloatMatrix c = SSEVecFloatMatrix(this->getHeight(), other.getWidth());
             for (unsigned int j2 = 0; j2 < c.getHeight(); j2+=4){
                 for (unsigned int k2 = 0; k2 < c.getWidth(); k2+=4){
-                    
-                    float kore[16];
-                    float sore[16];
-                    float are[16];
-                    /* fetch block */
-                    for (int j=0;j<4;j++){
-                        for (int k=0;k<4;k++){
-                            kore[4*j+k] = getEntry(j2+j, k2+k);
-                            sore[4*j+k] = other.getEntry(k2+k, j2+j);
+                    for (unsigned int i = 0; i < c.getHeight(); i+=4){
+                        float kore[16];
+                        float sore[16];
+                        float are[16];
+                        /* fetch block */
+                        for (int j=0;j<4;j++){
+                            for (int k=0;k<4;k++){
+                                kore[4*j+k] = getEntry(j2+j, k2+k);
+                                sore[4*j+k] = other.getEntry(k2+k, i+j);
+                            }
                         }
-                    }
-                    /* calculate */
-                    for (int j=0;j<4;j++){
-                        __m128 res[4];
-                        __m128 row = _mm_load_ps(kore+(4*j));
-                        for (int k=0;k<4;k++){
-                            __m128 col = _mm_load_ps(sore+(4*k));
-                            res[k] = _mm_mul_ps(row, col);
+                        /* calculate */
+                        for (int j=0;j<4;j++){
+                            __m128 res[4];
+                            __m128 row = _mm_load_ps(kore+(4*j));
+                            for (int k=0;k<4;k++){
+                                __m128 col = _mm_load_ps(sore+(4*k));
+                                res[k] = _mm_mul_ps(row, col);
+                            }
+                            _MM_TRANSPOSE4_PS(res[0], res[1], res[2], res[3]);
+                            for (int k=0;k<3;k++){
+                                res[3] = _mm_add_ps(res[3], res[k]);
+                            }
+                            _mm_store_ps(&are[j*4], res[3]);
                         }
-                        _MM_TRANSPOSE4_PS(res[0], res[1], res[2], res[3]);
-                        for (int k=0;k<3;k++){
-                            res[3] = _mm_add_ps(res[3], res[k]);
-                        }
-                        _mm_store_ps(&are[j*4], res[3]);
-                    }
-                    /* write results */
-                    for (int j=0;j<4;j++){
-                        for (int k=0;k<4;k++){
-                            c.setEntry(j, k, are[4*k+j]);
+                        /* write results */
+                        for (int j=0;j<4;j++){
+                            for (int k=0;k<4;k++){
+                                c.setEntry(j, k, (c.getEntry(j, k) + are[4*k+j]) );
+                            }
                         }
                     }
                 }
@@ -119,35 +120,37 @@ class AVXVecFloatMatrix : public AbsMatrix<float>{
             AVXVecFloatMatrix c = AVXVecFloatMatrix(this->getHeight(), other.getWidth());
             for (unsigned int j2 = 0; j2 < c.getHeight(); j2+=8){
                 for (unsigned int k2 = 0; k2 < c.getWidth(); k2+=8){
-                    float kore[64];
-                    float sore[64];
-                    float are[64];
-                    /* fetch block */
-                    for (int j=0;j<8;j++){
-                        for (int k=0;k<8;k++){
-                            kore[8*j+k] = getEntry(j2+j, k2+k);
-                            sore[8*j+k] = other.getEntry(k2+k, j2+j);
+                    for (unsigned int i = 0; i < c.getHeight(); i+=8){
+                        float kore[64];
+                        float sore[64];
+                        float are[64];
+                        /* fetch block */
+                        for (int j=0;j<8;j++){
+                            for (int k=0;k<8;k++){
+                                kore[8*j+k] = getEntry(j2+j, k2+k);
+                                sore[8*j+k] = other.getEntry(k2+k, i+j);
+                            }
                         }
-                    }
-                    /* calculate */
-                    for (int j=0;j<8;j++){
-                        __m256 res[8];
-                        __m256 row = _mm256_load_ps(kore+(8*j));
-                        for (int k=0;k<8;k++){
-                            __m256 col = _mm256_load_ps(sore+(8*k));
-                            res[k] = _mm256_mul_ps(row, col);
+                        /* calculate */
+                        for (int j=0;j<8;j++){
+                            __m256 res[8];
+                            __m256 row = _mm256_load_ps(kore+(8*j));
+                            for (int k=0;k<8;k++){
+                                __m256 col = _mm256_load_ps(sore+(8*k));
+                                res[k] = _mm256_mul_ps(row, col);
+                            }
+                            transpose8_ps(  res[0], res[1], res[2], res[3],
+                                            res[4], res[5], res[6], res[7]);
+                            for (int k=0;k<7;k++){
+                                res[7] = _mm256_add_ps(res[7], res[k]);
+                            }
+                            _mm256_store_ps(&are[j*8], res[7]);
                         }
-                        transpose8_ps(  res[0], res[1], res[2], res[3],
-                                        res[4], res[5], res[6], res[7]);
-                        for (int k=0;k<7;k++){
-                            res[7] = _mm256_add_ps(res[7], res[k]);
-                        }
-                        _mm256_store_ps(&are[j*8], res[7]);
-                    }
-                    /* write results */
-                    for (int j=0;j<8;j++){
-                        for (int k=0;k<8;k++){
-                            c.setEntry(j, k, are[8*k+j]);
+                        /* write results */
+                        for (int j=0;j<8;j++){
+                            for (int k=0;k<8;k++){
+                                c.setEntry(j, k, (c.getEntry(j, k) + are[4*k+j]) );
+                            }
                         }
                     }
                 }
