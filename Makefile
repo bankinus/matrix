@@ -22,13 +22,16 @@ o0FILES = $(EXES)o0.asm
 o2FILES = $(EXES)o2.asm
 funFILES = $(EXES)fun.asm
 
-all : thread_test.csv
+all : $(EXECDIR)/hello_cuda
 
 clean :
 	rm -f ./exe/*
 	rm -f ./asm/*
 	rm -f gnutest.csv
 	rm -f test.csv
+
+$(EXECDIR)/hello_cuda : $(SRCDIR)/hello_cuda.cpp
+	$(LD) $(CXXFLAGS) -o $@ $^ ${LFLAGS}
 
 $(EXECDIR)/tile_test : $(SRCDIR)/tile_test.cpp $(SRCDIR)/absmatrix.h $(SRCDIR)/rowtmatrix.h $(SRCDIR)/coltmatrix.h $(SRCDIR)/blocktmatrix.h
 	$(LD) $(CXXFLAGS) -o $@ $^ ${LFLAGS}
