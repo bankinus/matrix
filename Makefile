@@ -2,9 +2,9 @@
 LD = g++
 CPP = g++
 CUCC = nvcc
-CXXFLAGS = -lrt -Wall -g -DLINUX -O2
+CXXFLAGS = -Wall -g -DLINUX -O2
 CUFLAGS =
-LFLAGS = 
+LFLAGS = -lrt
 
 ASMDIR = ./asm
 EXECDIR = ./exe
@@ -13,6 +13,7 @@ SRCDIR = ./src
 TILERESDIR = ./tile_test_results
 VECRESDIR = ./vec_test_results
 THREADRESDIR = ./thread_test_results
+CUDARESDIR = ./cuda_test_results
 
 HEADERS = matrix.h 
 SRCS = $(notdir $(shell find $(SRCDIR) -name "*.cpp"))
@@ -23,12 +24,16 @@ o0FILES = $(EXES)o0.asm
 o2FILES = $(EXES)o2.asm
 funFILES = $(EXES)fun.asm
 
-all : $(EXECDIR)/hello_cuda
+all : cuda_test.csv
 
 clean :
 	rm -f ./exe/*
 	rm -f ./asm/*
 
+$(EXECDIR)/cuda_test : $(SRCDIR)/cuda_test.cu $(SRCDIR)/cudamatrix.h 
+	$(CUCC) $(CUFLAGS) -o $@ $(SRCDIR)/cuda_test.cu ${LFLAGS}
+	$(EXECDIR)/cuda_test
+    
 $(EXECDIR)/hello_cuda : $(SRCDIR)/hello_cuda.cu
 	$(CUCC) $(CUFLAGS) -o $@ $^ ${LFLAGS}
 
@@ -45,6 +50,10 @@ $(EXECDIR)/% : $(SRCDIR)/%.cpp
 	$(LD) $(CXXFLAGS) -o $@ $^ ${LFLAGS}
 
 exes : $(addprefix $(EXECDIR)/,$(EXES))
+
+cuda_test.csv : $(EXECDIR)/cuda_test
+	$(EXECDIR)/cuda_test 64 64 > $(CUDARESDIR)/cuda_test.csv
+	$(EXECDIR)/cuda_test 1024 128 >> $(CUDARESDIR)/cuda_test.csv
 
 thread_test.csv : $(EXECDIR)/thread_test
 	$(EXECDIR)/thread_test 64 64 > $(THREADRESDIR)/thread_test.csv
