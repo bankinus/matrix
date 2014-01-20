@@ -1,8 +1,9 @@
 ## Flags
 LD = g++
 CPP = g++
+CUCC = nvcc
 CXXFLAGS = -lrt -Wall -g -DLINUX -O2
-
+CUFLAGS =
 LFLAGS = 
 
 ASMDIR = ./asm
@@ -27,11 +28,9 @@ all : $(EXECDIR)/hello_cuda
 clean :
 	rm -f ./exe/*
 	rm -f ./asm/*
-	rm -f gnutest.csv
-	rm -f test.csv
 
-$(EXECDIR)/hello_cuda : $(SRCDIR)/hello_cuda.cpp
-	$(LD) $(CXXFLAGS) -o $@ $^ ${LFLAGS}
+$(EXECDIR)/hello_cuda : $(SRCDIR)/hello_cuda.cu
+	$(CUCC) $(CUFLAGS) -o $@ $^ ${LFLAGS}
 
 $(EXECDIR)/tile_test : $(SRCDIR)/tile_test.cpp $(SRCDIR)/absmatrix.h $(SRCDIR)/rowtmatrix.h $(SRCDIR)/coltmatrix.h $(SRCDIR)/blocktmatrix.h
 	$(LD) $(CXXFLAGS) -o $@ $^ ${LFLAGS}
