@@ -32,7 +32,6 @@ clean :
 
 $(EXECDIR)/cuda_test : $(SRCDIR)/cuda_test.cu $(SRCDIR)/cudamatrix.h 
 	$(CUCC) $(CUFLAGS) -o $@ $(SRCDIR)/cuda_test.cu ${LFLAGS}
-	$(EXECDIR)/cuda_test
     
 $(EXECDIR)/hello_cuda : $(SRCDIR)/hello_cuda.cu
 	$(CUCC) $(CUFLAGS) -o $@ $^ ${LFLAGS}
