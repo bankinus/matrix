@@ -1,0 +1,8 @@
+plot \
+	"cuda_test8.csv"  using 1:2 title 'cuda  08*08' with linespoints lc  rgb "#00FFFF",\
+	"cuda_test8.csv"  using 1:3 title 'scuda 08*08' with linespoints lc  rgb "#FFFF00",\
+	"cuda_test16.csv" using 1:2 title 'cuda  16*16' with linespoints lc  rgb "#0000FF",\
+	"cuda_test16.csv" using 1:3 title 'scuda 16*16' with linespoints lc  rgb "#FF7F50",\
+	"cuda_test32.csv" using 1:2 title 'cuda  32*32' with linespoints lc  rgb "#191970",\
+	"cuda_test32.csv" using 1:3 title 'scuda 32*32' with linespoints lc  rgb "#FF4500" \
+\
