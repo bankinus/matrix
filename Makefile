@@ -51,6 +51,10 @@ $(EXECDIR)/% : $(SRCDIR)/%.cpp
 exes : $(addprefix $(EXECDIR)/,$(EXES))
 
 cuda_test.csv : $(EXECDIR)/cuda_test
+	$(CUCC) $(CUFLAGS) -o $(EXECDIR)/cuda_test $(SRCDIR)/cuda_test.cu ${LFLAGS} -D BLOCK_DIM=8
+	$(EXECDIR)/cuda_test 128 64 > $(CUDARESDIR)/cuda_test8.csv
+	$(EXECDIR)/cuda_test 1024 256 >> $(CUDARESDIR)/cuda_test8.csv
+	$(EXECDIR)/cuda_test 2048 512 >> $(CUDARESDIR)/cuda_test8.csv
 	$(CUCC) $(CUFLAGS) -o $(EXECDIR)/cuda_test $(SRCDIR)/cuda_test.cu ${LFLAGS} -D BLOCK_DIM=16
 	$(EXECDIR)/cuda_test 128 64 > $(CUDARESDIR)/cuda_test16.csv
 	$(EXECDIR)/cuda_test 1024 256 >> $(CUDARESDIR)/cuda_test16.csv
@@ -59,10 +63,6 @@ cuda_test.csv : $(EXECDIR)/cuda_test
 	$(EXECDIR)/cuda_test 128 64 > $(CUDARESDIR)/cuda_test32.csv
 	$(EXECDIR)/cuda_test 1024 256 >> $(CUDARESDIR)/cuda_test32.csv
 	$(EXECDIR)/cuda_test 2048 512 >> $(CUDARESDIR)/cuda_test32.csv
-	$(CUCC) $(CUFLAGS) -o $(EXECDIR)/cuda_test $(SRCDIR)/cuda_test.cu ${LFLAGS} -D BLOCK_DIM=64
-	$(EXECDIR)/cuda_test 128 64 > $(CUDARESDIR)/cuda_test64.csv
-	$(EXECDIR)/cuda_test 1024 256 >> $(CUDARESDIR)/cuda_test64.csv
-	$(EXECDIR)/cuda_test 2048 512 >> $(CUDARESDIR)/cuda_test64.csv
 
 thread_test.csv : $(EXECDIR)/thread_test
 	$(EXECDIR)/thread_test 64 64 > $(THREADRESDIR)/thread_test.csv
