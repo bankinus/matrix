@@ -38,8 +38,22 @@ int main (int argc, char** argv){
         nsec /= 1000000;
         sec *= 1000;
         msec = sec+nsec;
+		std::cout << msec << "\t";
+        
+   		SCudaMatrix<int> sc1(dim, dim, d1);
+		SCudaMatrix<int> sc2(dim, dim, d2);
+		SCudaMatrix<int> sc3(dim, dim);
+                clock_gettime(CLOCK_MONOTONIC, &begin);
+		for(volatile int i=0; i<repeats; i++){
+			sc3 = sc1 * sc2;
+		}
+		clock_gettime(CLOCK_MONOTONIC, &end);
+        sec = end.tv_sec - begin.tv_sec;
+        nsec = end.tv_nsec - begin.tv_nsec;
+        nsec /= 1000000;
+        sec *= 1000;
+        msec = sec+nsec;
 		std::cout << msec << std::endl;
-
 	}
 	return 0;
    
