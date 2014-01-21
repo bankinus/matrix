@@ -55,8 +55,10 @@ class CudaMatrix : public AbsMatrix<T>{
             cudaMemcpy(d_a, this->_data, a_byte, cudaMemcpyHostToDevice);
             cudaMemcpy(d_b, other._data, b_byte, cudaMemcpyHostToDevice);
 
-            dim3 blockDim(h_c.getWidth(), h_c.getHeight());
-            mult_kernel<<<1, blockDim>>>(d_a, d_b, d_c, h_c.getHeight());
+            unsigned int DIM = h_c.getHeight(); 
+            dim3 gridDim(DIM/BLOCK_DIM, DIM/BLOCK_DIM);
+            dim3 blockDim(BLOCK_DIM, BLOCK_DIM);
+            mult_kernel<<<gridDim, blockDim>>>(d_a, d_b, d_c, h_c.getHeight());
 
             cudaMemcpy(h_c._data, d_c, c_byte, cudaMemcpyDeviceToHost);
 
